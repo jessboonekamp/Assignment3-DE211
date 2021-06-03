@@ -1,6 +1,6 @@
 class Party implements IParty{
-    partyName
-    partyLogo
+    partyName: string
+    partyLogo: null
     voteFor = false;
     showParty = true;
     
