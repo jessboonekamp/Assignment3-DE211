@@ -1,0 +1,31 @@
+<!—BoxToy.html -->
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<script src='src/View.js'></script>
+<script src='src/election.js'></script>
+<script src='src/party.js'></script>
+<script src='src/localStoring.js'></script>
+
+<script>
+// <<CONTROLLER>>
+function main () {
+  let theElection= new Election()
+
+  theElection.addParty('National', null)
+  theElection.addParty('Labour', null)
+  theElection.addParty('Active', null)
+  theElection.addParty('Red', null)
+  theElection.voteForParty('Labour')
+  theElection.voteForParty('National')
+  View.clr()
+  View.out(theElection)
+}
+
+window.onload = main
+
+</script>
+</body>
+</html>
