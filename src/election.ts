@@ -6,7 +6,7 @@ class Election {
     listOfParties : Party[];
     votedParties : Party[];
     localStore : any;
-    targetParty : any;
+    targetParty : Party|undefined;
     
     //Feature 11
     constructor(location: string){
@@ -16,13 +16,13 @@ class Election {
         //Feature 13
         this.numberOfVotes = 0;
         this.maxVotes = 4;
-        this.targetParty = null;
+        this.targetParty = undefined;
         this.localStore = new LocalStoring('electionAppJess')
         
     }
 
     //Feature 2
-    addParty(name :string, logo: any){
+    addParty(name :string, logo: any): void{
         this.partyCount++;
         const newParty = new Party(name, logo);
         this.listOfParties.push(newParty);
@@ -78,13 +78,14 @@ class Election {
     voteForParty(targetPartyName: string): void{
         //Feature 10
         if(this.findPartiesInCurrentVotes(targetPartyName) == null){
-            if(this.numberOfVotes < this.maxVotes){
-                this.targetParty = this.findParty(targetPartyName);
-                this.targetParty.voteFor = true;
-                this.votedParties.push(this.targetParty)
-                this.numberOfVotes++;
-                this.localStore.clear();
-                this.localStore.save(this);
+            if (this.numberOfVotes < this.maxVotes) {
+                    this.targetParty = this.findParty(targetPartyName);
+                    this.targetParty!.voteFor = true;
+                    this.votedParties.push(this.targetParty!)
+                    this.numberOfVotes++;
+                    this.localStore.clear();
+                    this.localStore.save(this);
+
             }
             console.log(this.checkIfCanVote())
         }        
@@ -93,7 +94,7 @@ class Election {
     //Feature 9
     revertPartyVote(): void{
             this.targetParty = this.votedParties.pop();
-            this.targetParty.voteFor = false;
+            this.targetParty!.voteFor = false;
             this.numberOfVotes--;
     }
     //Feature 15
@@ -107,7 +108,7 @@ class Election {
     }
 
     checkIfCanVote() : string{
-            return((this.numberOfVotes == this.maxVotes) ? "Max votes allowed!" : "Keep Voting")
+            return((this.numberOfVotes == this.maxVotes) ? VoteOption.Yes : VoteOption.No)
         
     }
 
